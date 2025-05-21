@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -23,6 +24,9 @@ public class Member {
 	
 	@Column(name = "cname")
 	private String cname;
+	
+	@OneToOne(mappedBy = "member")
+	private MemberInfo memberInfo;
 	
 	public Member() {}
 	public Member(long id, String account, String passwd, String cname) {

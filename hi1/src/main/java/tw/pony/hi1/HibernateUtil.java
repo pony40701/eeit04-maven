@@ -5,6 +5,7 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
+import tw.pony.model.Gift;
 import tw.pony.model.Member;
 
 public class HibernateUtil {
@@ -18,6 +19,7 @@ public class HibernateUtil {
 				config.configure("hibernate.cfg.xml");
 				
 				config.addAnnotatedClass(Member.class);
+				config.addAnnotatedClass(Gift.class);
 				
 //				registry = new StandardServiceRegistryBuilder()
 //						.applySettings(config.getProperties())
