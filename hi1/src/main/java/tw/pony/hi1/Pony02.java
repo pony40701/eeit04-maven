@@ -6,7 +6,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.NativeQuery;
 
-import tw.pony.utils.HibernateUtil;
 
 public class Pony02 {
 	public static void main(String[] args) {

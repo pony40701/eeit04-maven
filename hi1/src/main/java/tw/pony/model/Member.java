@@ -1,7 +1,5 @@
 package tw.pony.model;
 
-import org.hibernate.annotations.Collate;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,43 +14,48 @@ public class Member {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private long id;
+	
 	@Column(name = "account")
 	private String account;
-	@Column(name = "password")
-	private String password;
+	
+	@Column(name = "passwd")
+	private String passwd;
+	
 	@Column(name = "cname")
 	private String cname;
-
+	
+	public Member() {}
+	public Member(long id, String account, String passwd, String cname) {
+		this.id = id;
+		this.account = account;
+		this.passwd = passwd;
+		this.cname = cname;
+	}
+	
 	public long getId() {
 		return id;
 	}
-
 	public void setId(long id) {
 		this.id = id;
 	}
-
 	public String getAccount() {
 		return account;
 	}
-
 	public void setAccount(String account) {
 		this.account = account;
 	}
-
-	public String getPassword() {
-		return password;
+	public String getPasswd() {
+		return passwd;
 	}
-
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPasswd(String passwd) {
+		this.passwd = passwd;
 	}
-
 	public String getCname() {
 		return cname;
 	}
-
 	public void setCname(String cname) {
 		this.cname = cname;
 	}
-
+	
+	
 }
