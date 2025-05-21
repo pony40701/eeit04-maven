@@ -60,6 +60,12 @@ public class Member {
 	public void setCname(String cname) {
 		this.cname = cname;
 	}
+	public MemberInfo getMemberInfo() {
+		return memberInfo;
+	}
+	public void setMemberInfo(MemberInfo memberInfo) {
+		this.memberInfo = memberInfo;
+	}
 	
 	
 }
