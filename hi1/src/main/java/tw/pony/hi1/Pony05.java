@@ -30,7 +30,7 @@ public class Pony05 {
 		}
 		System.out.println("---");
 
-		List<Member> members = dao.getall();
+		List<Member> members = dao.getAll();
 		for (Member member4 : members) {
 			System.out.printf("%d,%s : %s\n", member.getId(), member.getAccount(), member.getCname());
 		}

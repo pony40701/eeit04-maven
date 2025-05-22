@@ -7,6 +7,7 @@ import org.hibernate.cfg.Configuration;
 
 import tw.pony.model.Gift;
 import tw.pony.model.Member;
+import tw.pony.model.MemberInfo;
 
 public class HibernateUtil {
 	private static SessionFactory sessionFactory;
@@ -19,6 +20,7 @@ public class HibernateUtil {
 				config.configure("hibernate.cfg.xml");
 				
 				config.addAnnotatedClass(Member.class);
+				config.addAnnotatedClass(MemberInfo.class);
 				config.addAnnotatedClass(Gift.class);
 				
 //				registry = new StandardServiceRegistryBuilder()

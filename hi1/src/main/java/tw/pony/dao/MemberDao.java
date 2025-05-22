@@ -1,10 +1,10 @@
 package tw.pony.dao;
 
+import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.*;
-import java.util.*;
+import org.hibernate.query.Query;
 
 import tw.pony.apis.BCrypt;
 import tw.pony.hi1.HibernateUtil;
@@ -17,8 +17,6 @@ public class MemberDao {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
 
-			member.setPasswd(BCrypt.hashpw(member.getPasswd(), BCrypt.gensalt()));
-
 			session.persist(member);
 
 			transaction.commit();
@@ -27,16 +25,6 @@ public class MemberDao {
 			if (transaction != null) {
 				transaction.rollback();
 			}
-		}
-	}
-
-	public Member getById(int id) {
-		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-
-			return session.get(Member.class, id);
-		} catch (Exception e) {
-			System.out.println(e);
-			return null;
 		}
 	}
 
@@ -71,13 +59,41 @@ public class MemberDao {
 			}
 		}
 	}
-	public List<Member> getall(){
-		try (Session session = HibernateUtil.getSessionFactory().openSession()){
-				String hql = "FROM Member";
-				return session.createQuery(hql, Member.class).getResultList();
-		}catch(Exception e) {
+
+	public Member getById(int id) {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+
+			return session.get(Member.class, id);
+		} catch (Exception e) {
 			System.out.println(e);
 			return null;
 		}
 	}
+
+	public List<Member> getAll() {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			String hql = "FROM Member";
+			return session.createQuery(hql, Member.class).getResultList();
+		} catch (Exception e) {
+			System.out.println(e);
+			return null;
+		}
+	}
+
+	// MemberInfo.tel Like
+	public List<Member> findByTel(String keyword) {
+
+		String hql = "FROM Member m WHERE m.memberInfo.tel LIKE :key";
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+
+			Query<Member> query = session.createQuery(hql, Member.class);
+			query.setParameter("key", "%" + keyword + "%");
+
+			return query.list();
+		} catch (Exception e) {
+			System.out.println(e);
+			return null;
+		}
+	}
+
 }
