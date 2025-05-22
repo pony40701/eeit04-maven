@@ -1,17 +1,16 @@
 package tw.pony.hi1;
 
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
+import tw.pony.model.Cust;
 import tw.pony.model.Gift;
 import tw.pony.model.Member;
 import tw.pony.model.MemberInfo;
+import tw.pony.model.Order;
 
 public class HibernateUtil {
 	private static SessionFactory sessionFactory;
-	//private static StandardServiceRegistry registry;
 	
 	public static SessionFactory getSessionFactory() {
 		if (sessionFactory == null) {
@@ -22,11 +21,8 @@ public class HibernateUtil {
 				config.addAnnotatedClass(Member.class);
 				config.addAnnotatedClass(MemberInfo.class);
 				config.addAnnotatedClass(Gift.class);
-				
-//				registry = new StandardServiceRegistryBuilder()
-//						.applySettings(config.getProperties())
-//						.build();
-//				sessionFactory = config.buildSessionFactory(registry);
+				config.addAnnotatedClass(Cust.class);
+				config.addAnnotatedClass(Order.class);
 				
 				sessionFactory = config.buildSessionFactory();
 				
