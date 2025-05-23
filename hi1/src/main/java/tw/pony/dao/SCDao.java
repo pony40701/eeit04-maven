@@ -1,20 +1,22 @@
 package tw.pony.dao;
 
-import org.hibernate.Hibernate;
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import tw.pony.hi1.HibernateUtil;
-import tw.pony.model.Cust;
-import tw.pony.model.Order;
-public class CustDao {
-	public void save(Cust cust) {
+import tw.pony.model.Course;
+import tw.pony.model.Student;
+
+public class SCDao {
+	public void add(Student student) {
 		Transaction transaction = null;
 		try(Session session = 
 				HibernateUtil.getSessionFactory().openSession()){
 			transaction = session.beginTransaction();
 			
-			session.persist(cust);
+			session.persist(student);
 			
 			transaction.commit();
 		}catch(Exception e) {
@@ -24,14 +26,30 @@ public class CustDao {
 			}
 		}
 	}
-
-	public void delete(Cust cust) {
+	public void add(Course course) {
 		Transaction transaction = null;
 		try(Session session = 
 				HibernateUtil.getSessionFactory().openSession()){
 			transaction = session.beginTransaction();
 			
-			session.remove(cust);
+			session.persist(course);
+			
+			transaction.commit();
+		}catch(Exception e) {
+			System.out.println(e);
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		}
+	}
+	
+	public void delete(Student student) {
+		Transaction transaction = null;
+		try(Session session = 
+				HibernateUtil.getSessionFactory().openSession()){
+			transaction = session.beginTransaction();
+			
+			session.remove(student);
 			
 			transaction.commit();
 		}catch(Exception e) {
@@ -42,89 +60,56 @@ public class CustDao {
 		}		
 	}
 
-	public void update(Cust cust) {
+	public Student update(Student student) {
 		Transaction transaction = null;
 		try(Session session = 
 				HibernateUtil.getSessionFactory().openSession()){
 			transaction = session.beginTransaction();
 			
-			session.merge(cust);
+			session.merge(student);
 			
 			transaction.commit();
+			
+			return getById(student.getId());
+			
+			
 		}catch(Exception e) {
 			System.out.println(e);
 			if (transaction != null) {
 				transaction.rollback();
 			}
+			return null;
 		}		
 	}
 	
-	public Cust getById(int id) {
+	public Student getById(long id) {
 		try(Session session = 
 				HibernateUtil.getSessionFactory().openSession()){
-			
-			Cust cust = session.get(Cust.class, id);
-			//Hibernate.initialize(cust.getOrders());
-			
-			return cust;
+			return session.get(Student.class, id);
 		}catch(Exception e) {
 			System.out.println(e);
 			return null;
 		}		
 	}
-	
-	public Order getOrderById(int id) {
+	public Course getCourseById(int id) {
 		try(Session session = 
 				HibernateUtil.getSessionFactory().openSession()){
-			
-			Order order = session.get(Order.class, id); 
-			
-			return order;
+			return session.get(Course.class, id);
 		}catch(Exception e) {
 			System.out.println(e);
 			return null;
 		}		
-		
-	}
+	}	
 	
-	public void removeOrderFromCust(long custId, long orderId) {
-		Transaction transaction = null;
+	public List<Course> getAllCourse(){
 		try(Session session = 
 				HibernateUtil.getSessionFactory().openSession()){
-			transaction = session.beginTransaction();
-			
-			Cust cust = session.get(Cust.class, custId);
-			Order targetOrder = null;
-			for (Order order : cust.getOrders()) {
-				if (order.getId() == orderId) {
-					targetOrder = order;
-					break;
-				}
-			}
-			
-			if (targetOrder != null) {
-				cust.removeOrder(targetOrder);
-			}
-			
-			session.merge(cust);
-			
-			
-			transaction.commit();
+			return session.createQuery("FROM Course", Course.class).getResultList();
 		}catch(Exception e) {
 			System.out.println(e);
-			if (transaction != null) {
-				transaction.rollback();
-			}
-		}				
-	} 
-	
-	
-	
-	
-	
-	
-	
-	
+			return null;
+		}			
+	}
 	
 	
 	
